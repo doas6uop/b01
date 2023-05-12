@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- 태그에 th:each를 삽입하여 반복 처리-->
+<ul>
+    <li th:each="str: ${list}" th:text="${str}"></li>
+</ul>
+
+<!-- th:bloack 태그를 이용하여 반복 처리 -->
+<ul>
+    <th:block th:each="str: ${list}">
+        <li>[[${str}]]</li>
+    </th:block>
+</ul>
+
+<!-- status를 이용하여 반복 처리. 변수명은 작성자가 직접 기입할 수 있다. -->
+<ul>
+    <li th:each="str, status: ${list}">
+        [[${status.index}]] -- [[${str}]]
+    </li>
+</ul>
+
+<!-- th:if, th:unless를 이용하여 홀수, 짝수 구분 -->
+<ul>
+    <li th:each="str, status: ${list}">
+        <span th:if="${status.odd}"> ODD -- [[${str}]]</span>
+        <span th:unless="${status.odd}"> EVEN -- [[${str}]]</span>
+    </li>
+</ul>
+
+<!-- 삼항연산자를 이용한 처리 -->
+<ul>
+    <li th:each="str, status: ${list}">
+        <span th:text="${status.odd} ? 'ODD ---' + ${str}"></span>
+    </li>
+</ul>
+
+<!-- th:switch, th:case와 같이 사용하여 Switch문 처리 -->
+<ul>
+    <li th:each="str, status: ${list}">
+        <th:block th:switch="${status.index % 3}">
+            <span th:case="0">0</span>
+            <span th:case="1">1</span>
+            <span th:case="2">2</span>
+        </th:block>
+    </li>
+</ul>
+
+<!-- Thymeleaf의 링크 처리 -->
+<a th:href="@{/hello}">Go to /hello</a>
+<br>
+
+<!-- 링크의 쿼리스트링 처리 -->
+<a th:href="@{/hello(name='AAA', age=16)}">Go to /hello(queryString)</a>
+<br>
+
+<!-- 링크의 쿼리스트링 한글처리 -->
+<a th:href="@{/hello(name='한글처리', age=16)}">Go to /hello(쿼리스트링 한글체크)</a>
+<br>
+
+<!-- 링크의 쿼리스트링 배열처리, 에디터화면에선 에러로 표기되나, 실제로는 동작. -->
+<a th:href="@{/hello(types=${ {'AA','BB','CC'} }, age=16)}">Go to /hello(queryString Array)</a>
+<br>
+
+</body>
+</html>
