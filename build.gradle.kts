@@ -14,6 +14,7 @@ configurations {
     }
 }
 
+
 repositories {
     mavenCentral()
 }
@@ -31,8 +32,21 @@ dependencies {
     // 테스트 환경에서 롬복 사용
     testCompileOnly("org.projectlombok:lombok")
     testAnnotationProcessor("org.projectlombok:lombok")
+
+    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0")
+
+    // Spring Boot, JPA, Querydsl
+    // https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    annotationProcessor("javax.persistence:javax.persistence-api")
+    annotationProcessor("javax.annotation:javax.annotation-api")
+    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jpa")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+java.sourceSets["main"].java {
+    srcDirs("/src/main/java", "/build/generated")
 }
